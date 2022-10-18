@@ -1,15 +1,11 @@
 const { response } = require("express");
 const {
-    create,getUSERByUSERId,getUSERS,UpdateUSER ,deleteUSER,getUSERByUSERemail} =require("./user.service");
-const {genSaltSync,hashSync} = require("bcrypt");
-const { sign } =require("jsonwebtoken");
-const bcrypt = require('bcrypt');
-const { compareSync } = require("bcrypt");
+    create,getMovieById,getMovies,updateMovie ,getMovieByName, deleteMovie} =require("./movie.service");
 
 
 
-module.exports ={
-    createUser: (req, res) => {
+module.exports ={  
+createMovie: (req, res) => {
         const body=req.body;
 
         create(body
@@ -27,9 +23,9 @@ module.exports ={
             });
         });
     },
-    getUSERByUSERId:(req,res) =>{
+    getMovieById:(req,res) =>{
         const id =req.param.USERId;
-        getUSERByUSERId(id,(err,results) => {
+        getMovieById(id,(err,results) => {
             if(err){
                 console.log(err);
                 return;
@@ -46,8 +42,8 @@ module.exports ={
             });
         });
     },
-    getUSERS:(req,res) =>{
-        getUSERS((err,results) => {
+    getMovies:(req,res) =>{
+        getMovies((err,results) => {
             if (err){
                 console.log(err);
                 return;
@@ -58,9 +54,9 @@ module.exports ={
             });
         });
     },
-    UpdateUSER:(req,res) => {
+    updateMovie:(req,res) => {
         const body= req.body;
-        UpdateUSER(body,(err , results) =>{
+        updateMovie(body,(err , results) =>{
             if(err){
                 console.log(err);
                 return false;
@@ -78,9 +74,9 @@ module.exports ={
             });
         });
     },
-    deleteUSER:(req,res) => {
+    deleteMovie:(req,res) => {
         const data = req.body;
-        deleteUSER(data,(err,results) =>{
+        deleteMovie(data,(err,results) =>{
             if(err) {
                 console.log(err);
                 return;
@@ -96,40 +92,6 @@ module.exports ={
                 message:"user deleted successfully"
             });
         });
-    },
-    login:(req, res) => {
-        const body =req.body;
-        getUSERByUSERemail(body.email,(err,results) => {
-            if (err) {
-                console.log(err);
-            }
-            if(!results) {
-                return res.json({
-                    success:0,
-                    message:"invalidemail or passcode"
-                });
-            }
-            const result = bcrypt.compareSync(body.passcode,results.passcode);
-            console.log(body.passcode);
-            console.log(results.passcode)
-            console.log(result);
-            if(result){
-                results.passcode = undefined;
-                const jsontoken = sign({ result:results}, "qwe1234" );
-                return res.json({
-                    success:1,
-                    message:"login successfully done",
-                    token: jsontoken
-                });
-            } else{
-            return res.json({
-                success:0,
-                data: "invalid email or passcode}}}"
-
-            }); 
-        }
-
-        });
-    },
+    }
 
 };

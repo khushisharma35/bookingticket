@@ -3,14 +3,12 @@ const pool = require("../../config/database");
 
 module.exports ={
     create: (data, callBack)=> {
-        data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            "insert into user(name,userType,email,passcode) values(?,?,?,?)",
+            "insert into movie(movieName, movieTime, userId) values(?,?,?)",
             [
-                data.name,
-                data.userType,
-                data.email,
-                data.passcode
+                data.movieName,
+                data.movieTime,
+                data.userId
             ],
             (error,results,fields) =>{
                 console.log("test",error)
@@ -22,9 +20,9 @@ module.exports ={
             }
         );
     },
-    getUSERS: callBack => {
+    getMovies: callBack => {
         pool.query(
-            'select  * from USER',
+            'select  * from movie',
             (error, results,fields) => {
                 if(error){
                   return  callBack(error);
@@ -33,10 +31,10 @@ module.exports ={
             }
         );
     },
-    getUSERByUSERId : (data,callBack) => {
+    getMovieById : (data,callBack) => {
         pool.query(
-            'select name,email,passcode from USER where  USERId =?',
-            [data.USERId],
+            'select movieName, movieTime, userId from movie where  movieId =?',
+            [data.movieId],
             (error,results,fields) => {
                 if(error) {
                     return callBack(error);
@@ -45,15 +43,14 @@ module.exports ={
             }
         );
     },
-    UpdateUSER : (data,callBack) => {
+    updateMovie : (data,callBack) => {
         data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            'update USER set name=?,userType=?,email=?,passcode=? where email =?',
-            [   data.name,
-                data.userType,
-                data.email,
-                data.passcode,
-                data.oldEmail
+            'update USER set movieName=?,movieTime=?,userId=? where movieId =?',
+            [   data.movieName,
+                data.movieTime,
+                data.userId,
+                data.movieId
             ],
             (error,results,fields) => {
                 if(error) {
@@ -63,10 +60,10 @@ module.exports ={
             },
         );
     },
-    deleteUSER: (data,callBack)=> {
+    deleteMovie: (data,callBack)=> {
         pool.query(
-            'delete from USER where USERId=?',
-            [data.USERId],
+            'delete from movie where movieId=?',
+            [data.movieId],
             (error,results,fields) => {
                 if(error) {
                    return  callBack(error);
@@ -75,10 +72,10 @@ module.exports ={
             }
         );
     },
-    getUSERByUSERemail:(email,callBack) => {
+    getMovieByName:(name,callBack) => {
         pool.query(
-            'select * from user where email=?',
-            [email],
+            'select * from movie where movieName=?',
+            [name],
             (error,results,fields) => {
                 if(error) {
                     callBack(error);
