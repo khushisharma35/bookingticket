@@ -1,18 +1,21 @@
 const { response } = require("express");
 const {
     create,getUSERByUSERId,getUSERS,UpdateUSER ,deleteUSER,getUSERByUSERemail} =require("./user.service");
-const { genSaltSync , hashSync,compareSync} = require("bcrypt");
+const {genSaltSync,hashSync} = require("bcrypt");
 const { sign } =require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const { compareSync } = require("bcrypt");
+
 
 
 module.exports ={
     createUser: (req, res) => {
         const body=req.body;
-        const salt =genSaltSync(10);
-        body.password = hashSync(body.password,salt);
-        create(body,(err , results) =>{
+
+        create(body
+        ,(err, results) => {
             if(err){
-                console.log(err);
+                
                 return response.status(500).json({
                     success:0,
                     message: "Database connection error"
@@ -20,12 +23,12 @@ module.exports ={
             }
             return res.status(200).json({
                 success:1,
-                data: results
+                data: results,
             });
         });
     },
     getUSERByUSERId:(req,res) =>{
-        const USERId =req.param.USERId;
+        const id =req.param.USERId;
         getUSERByUSERId(id,(err,results) => {
             if(err){
                 console.log(err);
@@ -57,13 +60,12 @@ module.exports ={
     },
     UpdateUSER:(req,res) => {
         const body= req.body;
-        const salt =genSaltSync(10);
-        body.password = hashSync(body.password,salt);
         UpdateUSER(body,(err , results) =>{
             if(err){
                 console.log(err);
                 return false;
             }
+            
             if(!results){
                 return res.json({
                     success:0,
@@ -104,12 +106,15 @@ module.exports ={
             if(!results) {
                 return res.json({
                     success:0,
-                    message:"invalidemail or password"
+                    message:"invalidemail or passcode"
                 });
             }
-            const result = compareSync(body.password,results.password);
+            const result = bcrypt.compareSync(body.passcode,results.passcode);
+            console.log(body.passcode);
+            console.log(results.passcode)
+            console.log(result);
             if(result){
-                result.password = undefined;
+                results.passcode = undefined;
                 const jsontoken = sign({ result:results}, "qwe1234" );
                 return res.json({
                     success:1,
@@ -119,9 +124,9 @@ module.exports ={
             } else{
             return res.json({
                 success:0,
-                data: "invalid email or password"
+                data: "invalid email or passcode}}}"
 
-            });
+            }); 
         }
 
         });

@@ -1,29 +1,30 @@
+const { hashSync, hash } = require("bcrypt");
 const pool = require("../../config/database");
 
 module.exports ={
     create: (data, callBack)=> {
+        data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            "insert into USER values(?,?,?,?,?)",
+            "insert into user(name,userType,email,passcode) values(?,?,?,?)",
             [
-                data.USERId,
                 data.name,
-                data.mobileno,
+                data.userType,
                 data.email,
-                data.password
+                data.passcode
             ],
             (error,results,fields) =>{
-                console.log(data.USERId);
+                console.log("test",error)
                 if(error) {
                     return callBack(error,null);
                 }
-                return callBack( null,results)
+                
+                return callBack( null,results);
             }
         );
     },
     getUSERS: callBack => {
         pool.query(
-            'select USERId ,name,mobileno,email,password from USER',
-            [USERId],
+            'select  * from USER',
             (error, results,fields) => {
                 if(error){
                   return  callBack(error);
@@ -32,10 +33,10 @@ module.exports ={
             }
         );
     },
-    getUSERByUSERId : (USERId,callBack) => {
+    getUSERByUSERId : (data,callBack) => {
         pool.query(
-            'select USERId ,name,mobileno,email,password from USER where  USERId =?',
-            [USERId],
+            'select name,email,passcode from USER where  USERId =?',
+            [data.USERId],
             (error,results,fields) => {
                 if(error) {
                     return callBack(error);
@@ -45,19 +46,20 @@ module.exports ={
         );
     },
     UpdateUSER : (data,callBack) => {
+        data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            'update USER set USERId=? ,name=?,mobileno=?,email=?,password=? where id =?',
-            [data.USERId,
-                data.name,
-                data.mobileno,
+            'update USER set name=?,userType=?,email=?,passcode=? where email =?',
+            [   data.name,
+                data.userType,
                 data.email,
-                data.password
+                data.passcode,
+                data.oldEmail
             ],
             (error,results,fields) => {
                 if(error) {
                     return callBack(error);
                 }
-                return callBack(null,results[0]);
+                return callBack(null,results);
             },
         );
     },
@@ -75,11 +77,12 @@ module.exports ={
     },
     getUSERByUSERemail:(email,callBack) => {
         pool.query(
-            'select * from USER where email=?',
+            'select * from user where email=?',
             [email],
             (error,results,fields) => {
                 if(error) {
                     callBack(error);
+                    console.log(error);
                 }
                 return callBack(null,results[0]);
             }
