@@ -1,14 +1,15 @@
-//const { hashSync, hash } = require("bcrypt");
 const pool = require("../../config/database");
 
 module.exports ={
     create: (data, callBack)=> {
         pool.query(
-            "insert into movie(movieName, movieTime, userId) values(?,?,?)",
+            "insert into shows(movieId,auditoriumId,screenTime,screenNo) values(?,?,?,?)",
             [
-                data.movieName,
-                data.movieTime,
-                data.userId
+                data.movieId,
+                data.auditoriumId,
+                data.screenTime,
+                data.screenNo
+
             ],
             (error,results,fields) =>{
                 console.log("test",error)
@@ -20,9 +21,9 @@ module.exports ={
             }
         );
     },
-    getMovies: callBack => {
+    getshows: callBack => {
         pool.query(
-            'select  * from movie',
+            'select  * from shows',
             (error, results,fields) => {
                 if(error){
                   return  callBack(error);
@@ -31,13 +32,14 @@ module.exports ={
             }
         );
     },
-    updateMovie : (data,id,callBack) => {
+    updateshow : (data,id,callBack) => {
         //data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            'update movie set movieName=?,movieTime=?,userId=? where movieId =?',
-            [   data.movieName,
-                data.movieTime,
-                data.userId,
+            'update movie set movieId=?,auditoriumId=?,screenTime=?,screen=? where showId =?',
+            [   data.movieId,
+                data.auditoriumId,
+                data.screenTime,
+                data.screen,
                 id
             ],
             (error,results,fields) => {
@@ -48,9 +50,9 @@ module.exports ={
             },
         );
     },
-    deleteMovie: (id,callBack)=> {
+    deleteshow: (id,callBack)=> {
         pool.query(
-            'delete from movie where movieId=?',
+            'delete from shows where id=?',
             [id],
             (error,results,fields) => {
                 if(error) {

@@ -35,12 +35,12 @@ module.exports ={
                 return;
             }
             if(!results) {
-                return res.json({
+                return res.status(404).json({
                     success:0,
                     message: "Record is not found"
                 });
             }
-            return res.json({
+            return res.status(200).json({
                 success:1,
                 data:results
             });
@@ -67,12 +67,12 @@ module.exports ={
             }
             console.log(results)
             if(!results){
-                return res.json({
+                return res.status(400).json({
                     success:0,
                     message: "failed to update user"
                 });
             }
-            return res.json({
+            return res.status(200).json({
                 success:1,
                 message:"updated successfully"
             });
@@ -116,13 +116,13 @@ module.exports ={
             if(result){
                 results.passcode = undefined;
                 const jsontoken = sign({ result:results}, "qwe1234" );
-                return res.json({
+                return res.status(200).json({
                     success:1,
                     message:"login successfully done",
                     token: jsontoken
                 });
             } else{
-            return res.json({
+            return res.status(401).json({
                 success:0,
                 data: "invalid email or passcode}}}"
 

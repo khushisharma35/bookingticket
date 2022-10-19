@@ -32,7 +32,7 @@ module.exports ={
     updateauditorium : (data,id,callBack) => {
         //data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            'update auditorium set auditoriumName=?,seats=?, where id =?',
+            'update auditorium set auditoriumName=?,seats=?, where auditoriumId =?',
             [   data.auditoriumName,
                 data.seats,
                 id
@@ -46,10 +46,10 @@ module.exports ={
             },
         );
     },
-    deleteauditorium: (data,callBack)=> {
+    deleteauditorium: (id,callBack)=> {
         pool.query(
             'delete from auditorium where auditoriumId=?',
-            [data.auditoriumId],
+            [id],
             (error,results,fields) => {
                 if(error) {
                    return  callBack(error);
@@ -58,17 +58,5 @@ module.exports ={
             }
         );
     },
-    getauditoriumByName:(name,callBack) => {
-        pool.query(
-            'select * from auditorium where auditoriumName=?',
-            [name],
-            (error,results,fields) => {
-                if(error) {
-                    callBack(error);
-                    console.log(error);
-                }
-                return callBack(null,results[0]);
-            }
-        );
-    }
+    
 };

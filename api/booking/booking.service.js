@@ -4,11 +4,12 @@ const pool = require("../../config/database");
 module.exports ={
     create: (data, callBack)=> {
         pool.query(
-            "insert into movie(movieName, movieTime, userId) values(?,?,?)",
+            "insert into booking(paid, noOfSeats, showId,movieId) values(?,?,?,?)",
             [
-                data.movieName,
-                data.movieTime,
-                data.userId
+                data.paid,
+                data.noOfSeats,
+                data.showId,
+                data.movieId
             ],
             (error,results,fields) =>{
                 console.log("test",error)
@@ -20,9 +21,9 @@ module.exports ={
             }
         );
     },
-    getMovies: callBack => {
+    getbooking: callBack => {
         pool.query(
-            'select  * from movie',
+            'select  * from booking',
             (error, results,fields) => {
                 if(error){
                   return  callBack(error);
@@ -31,13 +32,14 @@ module.exports ={
             }
         );
     },
-    updateMovie : (data,id,callBack) => {
+    updatebooking: (data,id,callBack) => {
         //data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            'update movie set movieName=?,movieTime=?,userId=? where movieId =?',
-            [   data.movieName,
-                data.movieTime,
-                data.userId,
+            'update booking set paid=?,noOfSeats=?,screenTime=?,screen=? where bookingId =?',
+            [   data.paid,
+                data.noOfseats,
+                data.screenTime,
+                data.screen,
                 id
             ],
             (error,results,fields) => {
@@ -48,9 +50,9 @@ module.exports ={
             },
         );
     },
-    deleteMovie: (id,callBack)=> {
+    deletebooking: (id,callBack)=> {
         pool.query(
-            'delete from movie where movieId=?',
+            'delete from booking where bookingId=?',
             [id],
             (error,results,fields) => {
                 if(error) {

@@ -1,6 +1,6 @@
 const { response } = require("express");
 const {
-    create,getauditorium,updateauditorium,deleteauditorium,getauditoriumByName} =require("./auditorium.service");
+    create,getbooking,updatebooking,deletebooking} =require("./booking.service");
     //const {genSaltSync,hashSync} = require("bcrypt");
     //const { sign } =require("jsonwebtoken");
     //const bcrypt = require('bcrypt');
@@ -8,7 +8,7 @@ const {
 
 
 module.exports ={  
-createauditorium: (req, res) => {
+createbooking: (req, res) => {
         const body=req.body;
 
         create(body
@@ -27,8 +27,8 @@ createauditorium: (req, res) => {
         });
     },
     
-    getauditorium:(req,res) =>{
-        getauditorium((err,results) => {
+    getbooking:(req,res) =>{
+        getbooking((err,results) => {
             if (err){
                 console.log(err);
                 return;
@@ -39,10 +39,10 @@ createauditorium: (req, res) => {
             });
         });
     },
-    updateauditorium:(req,res) => {
+    updatebooking:(req,res) => {
         const body= req.body;
         const id = req.Params.id;
-        updateauditorium(body,id,(err , results) =>{
+        updatebooking(body,id,(err , results) =>{
             if(err){
                 console.log(err);
                 return false;
@@ -60,9 +60,9 @@ createauditorium: (req, res) => {
             });
         });
     },
-    deleteauditorium:(req,res) => {
-        const data = req.body;
-        deleteMovie(data,(err,results) =>{
+    deletebooking:(req,res) => {
+        const id = req.Params.id;
+        deletebooking(data,(err,results) =>{
             if(err) {
                 console.log(err);
                 return;

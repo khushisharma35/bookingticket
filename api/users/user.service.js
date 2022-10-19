@@ -63,10 +63,10 @@ module.exports ={
             },
         );
     },
-    deleteUSER: (data,callBack)=> {
+    deleteUSER: (id,callBack)=> {
         pool.query(
             'delete from USER where USERId=?',
-            [data.USERId],
+            [id],
             (error,results,fields) => {
                 if(error) {
                    return  callBack(error);
@@ -75,17 +75,5 @@ module.exports ={
             }
         );
     },
-    getUSERByUSERemail:(email,callBack) => {
-        pool.query(
-            'select * from user where email=?',
-            [email],
-            (error,results,fields) => {
-                if(error) {
-                    callBack(error);
-                    console.log(error);
-                }
-                return callBack(null,results[0]);
-            }
-        );
-    }
+   
 };

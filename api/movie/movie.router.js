@@ -1,4 +1,4 @@
-const { createMovie, deleteMovie, getMovieById, getMovies, updateMovie } = require("./movie.controller");
+const { createMovie, deleteMovie, getMovies, updateMovie } = require("./movie.controller");
 const router = require("express").Router();
 const {checkToken} =require("../../auth/token_validation");
 

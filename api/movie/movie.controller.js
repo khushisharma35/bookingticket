@@ -20,7 +20,7 @@ createMovie: (req, res) => {
                     message: "Database connection error"
                 });
             }
-            return res.status(200).json({
+            return res.status(201).json({
                 success:1,
                 data: results,
             });
@@ -33,7 +33,7 @@ createMovie: (req, res) => {
                 console.log(err);
                 return;
             }
-            return res.json({
+            return res.status(200).json({
                 success:1,
                 data:results
             });
@@ -49,12 +49,12 @@ createMovie: (req, res) => {
             }
             console.log(results)
             if(!results){
-                return res.json({
+                return res.status(400).json({
                     success:0,
                     message: "failed to update user"
                 });
             }
-            return res.json({
+            return res.status(200).json({
                 success:1,
                 message:"updated successfully"
             });
@@ -68,12 +68,12 @@ createMovie: (req, res) => {
                 return;
             }
             if(!results) {
-                return res.json({
+                return res.status(404).json({
                     success:0,
                     message: "record not found"
                 });
             }
-            return res.json({
+            return res.status(200).json({
                 success:1,
                 message:"user deleted successfully"
             });
