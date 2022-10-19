@@ -1,14 +1,12 @@
-//const { hashSync, hash } = require("bcrypt");
 const pool = require("../../config/database");
 
 module.exports ={
     create: (data, callBack)=> {
         pool.query(
-            "insert into movie(movieName, movieTime, userId) values(?,?,?)",
+            "insert into auditorium(auditoriumName,seats) values(?,?)",
             [
-                data.movieName,
-                data.movieTime,
-                data.userId
+                data.auditoriumName,
+                data.seats
             ],
             (error,results,fields) =>{
                 console.log("test",error)
@@ -20,9 +18,9 @@ module.exports ={
             }
         );
     },
-    getMovies: callBack => {
+    getauditorium: callBack => {
         pool.query(
-            'select  * from movie',
+            'select  * from auditorium',
             (error, results,fields) => {
                 if(error){
                   return  callBack(error);
@@ -31,14 +29,14 @@ module.exports ={
             }
         );
     },
-    updateMovie : (data,id,callBack) => {
+    updateauditorium : (data,id,callBack) => {
         //data.passcode = hashSync(data.passcode, 10)
         pool.query(
-            'update movie set movieName=?,movieTime=?,userId=? where movieId =?',
-            [   data.movieName,
-                data.movieTime,
-                data.userId,
+            'update auditorium set auditoriumName=?,seats=?, where id =?',
+            [   data.auditoriumName,
+                data.seats,
                 id
+                
             ],
             (error,results,fields) => {
                 if(error) {
@@ -48,10 +46,10 @@ module.exports ={
             },
         );
     },
-    deleteMovie: (data,callBack)=> {
+    deleteauditorium: (data,callBack)=> {
         pool.query(
-            'delete from movie where movieId=?',
-            [data.movieId],
+            'delete from auditorium where auditoriumId=?',
+            [data.auditoriumId],
             (error,results,fields) => {
                 if(error) {
                    return  callBack(error);
@@ -60,9 +58,9 @@ module.exports ={
             }
         );
     },
-    getMovieByName:(name,callBack) => {
+    getauditoriumByName:(name,callBack) => {
         pool.query(
-            'select * from movie where movieName=?',
+            'select * from auditorium where auditoriumName=?',
             [name],
             (error,results,fields) => {
                 if(error) {

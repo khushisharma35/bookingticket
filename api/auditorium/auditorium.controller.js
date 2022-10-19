@@ -1,6 +1,6 @@
 const { response } = require("express");
 const {
-    create,getMovies,updateMovie , deleteMovie} =require("./movie.service");
+    create,getauditorium,updateauditorium,deleteauditorium,getauditoriumByName} =require("./auditorium.service");
     //const {genSaltSync,hashSync} = require("bcrypt");
     //const { sign } =require("jsonwebtoken");
     //const bcrypt = require('bcrypt');
@@ -8,7 +8,7 @@ const {
 
 
 module.exports ={  
-createMovie: (req, res) => {
+createauditorium: (req, res) => {
         const body=req.body;
 
         create(body
@@ -27,8 +27,8 @@ createMovie: (req, res) => {
         });
     },
     
-    getMovies:(req,res) =>{
-        getMovies((err,results) => {
+    getauditorium:(req,res) =>{
+        getauditorium((err,results) => {
             if (err){
                 console.log(err);
                 return;
@@ -39,10 +39,10 @@ createMovie: (req, res) => {
             });
         });
     },
-    updateMovie:(req,res) => {
+    updateauditorium:(req,res) => {
         const body= req.body;
         const id = req.Params.id;
-        updateMovie(body,id,(err , results) =>{
+        updateauditorium(body,id,(err , results) =>{
             if(err){
                 console.log(err);
                 return false;
@@ -60,7 +60,7 @@ createMovie: (req, res) => {
             });
         });
     },
-    deleteMovie:(req,res) => {
+    deleteauditorium:(req,res) => {
         const data = req.body;
         deleteMovie(data,(err,results) =>{
             if(err) {
